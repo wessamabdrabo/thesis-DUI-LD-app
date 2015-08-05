@@ -1,4 +1,5 @@
 # install_twisted_rector must be called before importing  and using the reactor
+import plistlib
 from kivy.support import install_twisted_reactor
 install_twisted_reactor()
 
@@ -32,6 +33,9 @@ button= Button()
 class DUIVidPlayerApp(App):
 
     def build(self):
+        pl = plistlib.readPlist("Videos.plist") #load videos data
+        print pl[0]['title'] #title of first video
+
         self.label = Label(text="server started\n", pos_hint={'center_x': .5, 'center_y': .5})
 
     	reactor.listenTCP(8000, TCPServerFactory(self))
