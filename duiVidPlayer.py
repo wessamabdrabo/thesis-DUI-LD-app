@@ -41,7 +41,7 @@ class DUIVidPlayerApp(App):
 
     def handle_message(self, msg):
         print "video url: " + msg
-        video= VideoPlayer(source='http://download.ted.com/talks/FeiFeiLi_2015-480p.mp4', state='play', pos_hint={'center_y': .5, 'center_y': .5})
+        video= VideoPlayer(source=msg, state='play', pos_hint={'center_y': .5, 'center_y': .5})
         parent.add_widget(video) #add videoplayer
         return parent
     
