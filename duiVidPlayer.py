@@ -70,10 +70,12 @@ class DUIVidPlayerApp(App):
         if msg == 'open':
             print "opening home!"
             home = DUIVidPlayer()
+            parent.clear_widgets()
             parent.add_widget(home);
             return parent
         print "video url: " + msg
         video= VideoPlayer(source=msg, state='play', pos_hint={'center_y': .5, 'center_y': .5})
+        parent.clear_widgets()
         parent.add_widget(video) #add videoplayer
         return parent
     
