@@ -1,4 +1,37 @@
 #:kivy 1.0
+<FilterWidget>
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 0
+        padding: [0, 0, 0, 0]
+        imageURL: self.imageURL
+        title: self.title
+        AsyncImage:
+            source: root.imageURL
+        Label:
+            text: root.title
+            text_size: self.size
+            valign: 'top'
+            halign: 'center'
+            font_size: '35sp'
+        #size_hint: .4, .4
+    #GridLayout:
+    #    canvas.before:
+    #        Color:
+    #            rgba: 0, 0, 1, 1
+    #        Rectangle:
+    #            pos: self.pos
+    #            size: self.size
+        #size_hint: .1, .1
+    #    rows:1
+    #    Label:
+    #        pos: self.pos
+    #        text: root.title
+    #        text_size: self.size
+    #        valign: 'middle'
+    #        halign: 'center'
+    #       font_size: '15sp'
+
 
 <DUIVidPlayer>:
     FloatLayout:

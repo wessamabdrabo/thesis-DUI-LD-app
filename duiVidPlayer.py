@@ -28,6 +28,16 @@ from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.videoplayer import VideoPlayer
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty, StringProperty
+from kivy.uix.image import AsyncImage
+
+class FilterWidget(BoxLayout):
+    title = StringProperty('')
+    imageURL = StringProperty('')
+    pass
+
 
 class DUIVidPlayer(FloatLayout):    
     def __init__(self, vids, **kwargs):
@@ -61,11 +71,10 @@ class DUIVidPlayer(FloatLayout):
         self.ids.img32.source = vids[8]['imgUrl']   
         self.ids.title32.text = vids[8]['title']
 
-
+FilterGrid = GridLayout(cols=5, padding=[10,10,10,10])
 parent= FloatLayout()
 button= Button()
 videos = []
-
 class DUIVidPlayerApp(App):
 
     def build(self):
@@ -74,18 +83,54 @@ class DUIVidPlayerApp(App):
 
         self.label = Label(text="server started\n", pos_hint={'center_x': .5, 'center_y': .5})
 
-    	reactor.listenTCP(8000, TCPServerFactory(self))
+        reactor.listenTCP(8000, TCPServerFactory(self))
     	
         parent.add_widget(self.label)
         return parent
+      
+        #filter_widget1 = FilterWidget(title=self.videos[0]['title'],imageURL=self.videos[0]['imgUrl'])
+        #filter_widget2 = FilterWidget(title=self.videos[2]['title'],imageURL=self.videos[2]['imgUrl'])
+        #filter_widget3 = FilterWidget(title=self.videos[3]['title'],imageURL=self.videos[3]['imgUrl'])
+        #filter_widget4 = FilterWidget(title=self.videos[1]['title'],imageURL=self.videos[1]['imgUrl'])
+        #filter_widget5 = FilterWidget(title=self.videos[4]['title'],imageURL=self.videos[4]['imgUrl'])
+        #filter_widget6 = FilterWidget(title=self.videos[5]['title'],imageURL=self.videos[5]['imgUrl'])
+        #filter_widget7 = FilterWidget(title=self.videos[6]['title'],imageURL=self.videos[6]['imgUrl'])
+        #filter_widget8 = FilterWidget(title=self.videos[7]['title'],imageURL=self.videos[7]['imgUrl'])
+        #filter_widget9 = FilterWidget(title=self.videos[8]['title'],imageURL=self.videos[8]['imgUrl'])
+        #filter_widget10 = FilterWidget(title=self.videos[9]['title'],imageURL=self.videos[9]['imgUrl'])
+        
+        #FilterGrid.add_widget(filter_widget1)
+        #FilterGrid.add_widget(filter_widget2)
+        #FilterGrid.add_widget(filter_widget3)
+        #FilterGrid.add_widget(filter_widget4)
+        #FilterGrid.add_widget(filter_widget5)
+        #FilterGrid.add_widget(filter_widget6)
+        #FilterGrid.add_widget(filter_widget7)
+        #FilterGrid.add_widget(filter_widget8)
+        #FilterGrid.add_widget(filter_widget9)
+        #FilterGrid.add_widget(filter_widget10)
+
 
     def handle_message(self, msg):
-        if msg == 'open':
+        a = msg.split(':')
+        command = a[0]
+        content = a[1]
+        if command == 'open':
             print "opening home!"
             home = DUIVidPlayer(self.videos)
             parent.clear_widgets()
             parent.add_widget(home);
             return parent
+
+        if command == 'filter':
+            i = int(content)
+            print 'add filter widget'
+            parent.clear_widgets()
+            filter_widget = FilterWidget(title=self.videos[i]['title'],imageURL=self.videos[i]['imgUrl'])
+            FilterGrid.add_widget(filter_widget)
+            parent.add_widget(FilterGrid)
+            return parent
+
         print "video url: " + msg
         video= VideoPlayer(source=msg, state='play', pos_hint={'center_y': .5, 'center_y': .5})
         parent.clear_widgets()
