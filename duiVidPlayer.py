@@ -30,34 +30,47 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.videoplayer import VideoPlayer
 
 class DUIVidPlayer(FloatLayout):    
-    def __init__(self, **kwargs):
+    def __init__(self, vids, **kwargs):
         super(DUIVidPlayer, self).__init__(**kwargs)
         print "in DUIVidPlayer"
-        vids = ['https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/7ee0e10094b7da17d2d14e91b9cf481fa512a782_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800',
-            'https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/fbada01990f86f5afa850cc23a0259fec091f929_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800',
-            'https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/f9f08b68e8971ade2d347b3000b6cd2bd448626c_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800',
-            'https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/2b3dff7f7dffeb2228830bacdf591ac5cfdddc9b_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800',
-            'https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/2f500bfac6fa50bc2abe67459d36c9c3f0e3e48a_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800',
-            'https://tedcdnpi-a.akamaihd.net/r/tedcdnpe-a.akamaihd.net/images/ted/0438f3c9c66aff53ca7b549459d6e081dd7bea6f_2880x1620.jpg?ll=1&amp;quality=89&amp;w=800']
-        self.ids.img1.source = vids[1]
-        self.ids.img2.source = vids[3]
-        self.ids.img3.source = vids[4]
-        self.ids.img4.source = vids[2]
-        self.ids.img5.source = vids[5]
-        self.ids.img6.source = vids[5]
-        self.ids.img42.source = vids[3]
-        self.ids.img22.source = vids[2]
-        self.ids.img32.source = vids[1]
+
+        self.ids.img1.source = vids[0]['imgUrl']
+        self.ids.title1.text = vids[0]['title']
+
+        self.ids.img2.source = vids[1]['imgUrl']
+        self.ids.title2.text = vids[1]['title']
+
+        self.ids.img3.source = vids[2]['imgUrl']
+        self.ids.title3.text = vids[2]['title']
+
+        self.ids.img4.source = vids[3]['imgUrl']
+        self.ids.title4.text = vids[3]['title']
+
+        self.ids.img5.source = vids[4]['imgUrl']
+        self.ids.title5.text = vids[4]['title']
+        
+        self.ids.img6.source = vids[5]['imgUrl']
+        self.ids.title6.text = vids[5]['title']
+        
+        self.ids.img42.source = vids[6]['imgUrl']
+        self.ids.title42.text = vids[6]['title']
+        
+        self.ids.img22.source = vids[7]['imgUrl']
+        self.ids.title22.text = vids[7]['title']
+        
+        self.ids.img32.source = vids[8]['imgUrl']   
+        self.ids.title32.text = vids[8]['title']
 
 
 parent= FloatLayout()
 button= Button()
+videos = []
 
 class DUIVidPlayerApp(App):
 
     def build(self):
-        pl = plistlib.readPlist("Videos.plist") #load videos data
-        print pl[0]['title'] #title of first video
+        self.videos = plistlib.readPlist("Videos.plist") #load videos data
+        print self.videos[0]['title'] #title of first video
 
         self.label = Label(text="server started\n", pos_hint={'center_x': .5, 'center_y': .5})
 
@@ -69,7 +82,7 @@ class DUIVidPlayerApp(App):
     def handle_message(self, msg):
         if msg == 'open':
             print "opening home!"
-            home = DUIVidPlayer()
+            home = DUIVidPlayer(self.videos)
             parent.clear_widgets()
             parent.add_widget(home);
             return parent
