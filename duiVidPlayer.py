@@ -33,6 +33,14 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.image import AsyncImage
 
+class DetailWidget(FloatLayout):
+    title = StringProperty('')
+    imageURL = StringProperty('')
+    speaker = StringProperty('')
+    duration = StringProperty('')
+    descr = StringProperty('')
+    pass
+
 class FilterWidget(BoxLayout):
     title = StringProperty('')
     imageURL = StringProperty('')
@@ -87,34 +95,21 @@ class DUIVidPlayerApp(App):
     	
         parent.add_widget(self.label)
         return parent
-      
-        #filter_widget1 = FilterWidget(title=self.videos[0]['title'],imageURL=self.videos[0]['imgUrl'])
-        #filter_widget2 = FilterWidget(title=self.videos[2]['title'],imageURL=self.videos[2]['imgUrl'])
-        #filter_widget3 = FilterWidget(title=self.videos[3]['title'],imageURL=self.videos[3]['imgUrl'])
-        #filter_widget4 = FilterWidget(title=self.videos[1]['title'],imageURL=self.videos[1]['imgUrl'])
-        #filter_widget5 = FilterWidget(title=self.videos[4]['title'],imageURL=self.videos[4]['imgUrl'])
-        #filter_widget6 = FilterWidget(title=self.videos[5]['title'],imageURL=self.videos[5]['imgUrl'])
-        #filter_widget7 = FilterWidget(title=self.videos[6]['title'],imageURL=self.videos[6]['imgUrl'])
-        #filter_widget8 = FilterWidget(title=self.videos[7]['title'],imageURL=self.videos[7]['imgUrl'])
-        #filter_widget9 = FilterWidget(title=self.videos[8]['title'],imageURL=self.videos[8]['imgUrl'])
-        #filter_widget10 = FilterWidget(title=self.videos[9]['title'],imageURL=self.videos[9]['imgUrl'])
-        
-        #FilterGrid.add_widget(filter_widget1)
-        #FilterGrid.add_widget(filter_widget2)
-        #FilterGrid.add_widget(filter_widget3)
-        #FilterGrid.add_widget(filter_widget4)
-        #FilterGrid.add_widget(filter_widget5)
-        #FilterGrid.add_widget(filter_widget6)
-        #FilterGrid.add_widget(filter_widget7)
-        #FilterGrid.add_widget(filter_widget8)
-        #FilterGrid.add_widget(filter_widget9)
-        #FilterGrid.add_widget(filter_widget10)
-
+     
 
     def handle_message(self, msg):
         a = msg.split(':')
         command = a[0]
         content = a[1]
+
+        if command == 'detail':
+            print "detail"
+            i = int(content)
+            detail_widget = DetailWidget(title=self.videos[i]['title'],imageURL=self.videos[i]['imgUrl'], speaker=self.videos[i]['speaker'], duration=self.videos[i]['duration'], descr=self.videos[i]['descr'])
+            parent.clear_widgets()
+            parent.add_widget(detail_widget)
+            return parent
+
         if command == 'open':
             print "opening home!"
             home = DUIVidPlayer(self.videos)

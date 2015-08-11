@@ -1,4 +1,52 @@
 #:kivy 1.0
+<DetailWidget>
+    FloatLayout:
+        #orientation: 'vertical'
+        #spacing: 0
+        #padding: [0, 0, 0, 0]
+        imageURL: self.imageURL
+        title: self.title
+        descr: self.descr
+        speaker: self.speaker
+        duration: self.duration
+        Label:
+            text: root.speaker
+            text_size: self.size
+            size_hint: .9, .3
+            pos_hint: {'x': .1, 'y': .65}
+            valign: 'top'
+            halign: 'left'
+            font_size: '35sp'
+        Label:
+            text: root.title
+            text_size: self.size
+            size_hint: .9, .3
+            pos_hint: {'x': .1, 'y': .6}
+            valign: 'top'
+            halign: 'left'
+            font_size: '35sp'
+        Label:
+            text: root.duration
+            text_size: self.size
+            size_hint: .4, .3
+            pos_hint: {'x': .1, 'y': .53}
+            valign: 'top'
+            halign: 'left'
+            font_size: '20sp'
+        AsyncImage:
+            source: root.imageURL
+            size_hint: .5, .3
+            pos_hint: {'x': .1, 'y': .45}
+            valign: 'middle'
+            halign: 'center'
+        Label:
+            text: root.descr
+            text_size: self.size
+            size_hint: .7, .3
+            pos_hint: {'x': .1, 'y': .1}
+            valign: 'top'
+            halign: 'left'
+            font_size: '35sp'
 <FilterWidget>
     BoxLayout:
         orientation: 'vertical'
@@ -14,25 +62,7 @@
             valign: 'top'
             halign: 'center'
             font_size: '35sp'
-        #size_hint: .4, .4
-    #GridLayout:
-    #    canvas.before:
-    #        Color:
-    #            rgba: 0, 0, 1, 1
-    #        Rectangle:
-    #            pos: self.pos
-    #            size: self.size
-        #size_hint: .1, .1
-    #    rows:1
-    #    Label:
-    #        pos: self.pos
-    #        text: root.title
-    #        text_size: self.size
-    #        valign: 'middle'
-    #        halign: 'center'
-    #       font_size: '15sp'
-
-
+ 
 <DUIVidPlayer>:
     FloatLayout:
         #--Video1
