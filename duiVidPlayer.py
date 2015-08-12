@@ -126,11 +126,12 @@ class DUIVidPlayerApp(App):
             parent.add_widget(FilterGrid)
             return parent
 
-        print "video url: " + msg
-        video= VideoPlayer(source=msg, state='play', pos_hint={'center_y': .5, 'center_y': .5})
-        parent.clear_widgets()
-        parent.add_widget(video) #add videoplayer
-        return parent
+        if command == 'play':
+            i = int(content)
+            video= VideoPlayer(source=self.videos[i]['vidUrl'], state='play', pos_hint={'center_y': .5, 'center_y': .5}, allow_fullscreen=1, thumbnail=self.videos[i]['imgUrl'])
+            parent.clear_widgets()
+            parent.add_widget(video) #add videoplayer
+            return parent
     
 def reposition_label(root, *args):
 	label.x = parent.center_x
