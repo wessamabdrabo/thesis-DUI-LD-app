@@ -52,44 +52,45 @@ class DUIVidPlayer(FloatLayout):
         super(DUIVidPlayer, self).__init__(**kwargs)
         print "in DUIVidPlayer"
 
-        self.ids.img1.source = vids[0]['imgUrl']
-        self.ids.title1.text = vids[0]['title']
+        self.ids.img1.source = vids[19]['imgUrl']
+        self.ids.title1.text = vids[19]['title']
 
-        self.ids.img2.source = vids[1]['imgUrl']
-        self.ids.title2.text = vids[1]['title']
+        self.ids.img2.source = vids[8]['imgUrl']
+        self.ids.title2.text = vids[8]['title']
 
-        self.ids.img3.source = vids[2]['imgUrl']
-        self.ids.title3.text = vids[2]['title']
+        self.ids.img3.source = vids[70]['imgUrl']
+        self.ids.title3.text = vids[70]['title']
 
-        self.ids.img4.source = vids[3]['imgUrl']
-        self.ids.title4.text = vids[3]['title']
+        self.ids.img4.source = vids[57]['imgUrl']
+        self.ids.title4.text = vids[57]['title']
 
-        self.ids.img5.source = vids[4]['imgUrl']
-        self.ids.title5.text = vids[4]['title']
+        self.ids.img5.source = vids[56]['imgUrl']
+        self.ids.title5.text = vids[56]['title']
         
-        self.ids.img6.source = vids[5]['imgUrl']
-        self.ids.title6.text = vids[5]['title']
+        self.ids.img6.source = vids[50]['imgUrl']
+        self.ids.title6.text = vids[50]['title']
         
-        self.ids.img42.source = vids[6]['imgUrl']
-        self.ids.title42.text = vids[6]['title']
+        self.ids.img42.source = vids[26]['imgUrl']
+        self.ids.title42.text = vids[26]['title']
         
-        self.ids.img22.source = vids[7]['imgUrl']
-        self.ids.title22.text = vids[7]['title']
+        self.ids.img22.source = vids[15]['imgUrl']
+        self.ids.title22.text = vids[15]['title']
         
-        self.ids.img32.source = vids[8]['imgUrl']   
-        self.ids.title32.text = vids[8]['title']
+        self.ids.img32.source = vids[33]['imgUrl']   
+        self.ids.title32.text = vids[33]['title']
 
 FilterGrid = GridLayout(cols=5, padding=[10,10,10,10])
 parent= FloatLayout()
 button= Button()
 videos = []
+playing_vids = []
 class DUIVidPlayerApp(App):
 
     def build(self):
         self.videos = plistlib.readPlist("Videos.plist") #load videos data
         print self.videos[0]['title'] #title of first video
 
-        self.label = Label(text="server started\n", pos_hint={'center_x': .5, 'center_y': .5})
+        self.label = Label(text="Welcome to DiRec.\n", font_size="75sp", pos_hint={'center_x': .5, 'center_y': .5})
 
         reactor.listenTCP(8000, TCPServerFactory(self))
     	
@@ -112,6 +113,11 @@ class DUIVidPlayerApp(App):
 
         if command == 'open':
             print "opening home!"
+            print(len(playing_vids))
+            if len(playing_vids) is not 0:
+                print "we should stop the video!"
+                playing_vids[0].state = 'stop'; 
+                playing_vids.pop(0)     
             home = DUIVidPlayer(self.videos)
             parent.clear_widgets()
             parent.add_widget(home);
@@ -127,10 +133,16 @@ class DUIVidPlayerApp(App):
             return parent
 
         if command == 'play':
+            print(len(playing_vids))
+            if len(playing_vids) is not 0:
+                print "we should stop the video!"
+                playing_vids[0].state = 'stop'; 
+                playing_vids.pop(0)   
             i = int(content)
             video= VideoPlayer(source=self.videos[i]['vidUrl'], state='play', pos_hint={'center_y': .5, 'center_y': .5}, allow_fullscreen=1, thumbnail=self.videos[i]['imgUrl'])
             parent.clear_widgets()
             parent.add_widget(video) #add videoplayer
+            playing_vids.insert(0,video)
             return parent
     
 def reposition_label(root, *args):
