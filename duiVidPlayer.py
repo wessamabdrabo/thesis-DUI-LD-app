@@ -105,6 +105,11 @@ class DUIVidPlayerApp(App):
 
         if command == 'detail':
             print "detail"
+            print(len(playing_vids))
+            if len(playing_vids) is not 0:
+                print "we should stop the video!"
+                playing_vids[0].state = 'stop'; 
+                playing_vids.pop(0) 
             i = int(content)
             detail_widget = DetailWidget(title=self.videos[i]['title'],imageURL=self.videos[i]['imgUrl'], speaker=self.videos[i]['speaker'], duration=self.videos[i]['duration'], descr=self.videos[i]['descr'])
             parent.clear_widgets()
@@ -124,8 +129,13 @@ class DUIVidPlayerApp(App):
             return parent
 
         if command == 'filter':
+            print "filter"
+            print(len(playing_vids))
+            if len(playing_vids) is not 0:
+                print "we should stop the video!"
+                playing_vids[0].state = 'stop'; 
+                playing_vids.pop(0) 
             i = int(content)
-            print 'add filter widget'
             parent.clear_widgets()
             filter_widget = FilterWidget(title=self.videos[i]['title'],imageURL=self.videos[i]['imgUrl'])
             FilterGrid.add_widget(filter_widget)
